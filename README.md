@@ -1,4 +1,4 @@
-# Ailigent Suite
+# Ailigent
 
 **AI-Powered HR & Operations Suite for Odoo**
 
