@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  hr-agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: hr-agent-dev
+    ports:
+      - "8002:8002"
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+    env_file:
+      - ../.env
+    volumes:
+      - ../app:/app/app
+    networks:
+      - hr-agent-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: hr-agent-redis-dev
+    ports:
+      - "6380:6379"
+    networks:
+      - hr-agent-network
+
+networks:
+  hr-agent-network:
+    driver: bridge

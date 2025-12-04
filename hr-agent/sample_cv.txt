@@ -1,0 +1,43 @@
+JOHN DOE
+Senior Software Developer
+Email: john.doe@example.com | Phone: +1-555-0123 | Location: San Francisco, CA
+
+SUMMARY
+Experienced full-stack developer with 5+ years of expertise in Python, JavaScript, and cloud technologies.
+Passionate about building scalable applications and mentoring junior developers.
+
+TECHNICAL SKILLS
+- Languages: Python, JavaScript, TypeScript, SQL, HTML/CSS
+- Frameworks: FastAPI, Django, React, Node.js
+- Databases: PostgreSQL, MongoDB, Redis
+- DevOps: Docker, Kubernetes, AWS, CI/CD
+- Tools: Git, Jira, VS Code
+
+PROFESSIONAL EXPERIENCE
+
+Senior Software Developer | TechCorp Inc. | 2021 - Present
+- Led development of microservices architecture serving 1M+ users
+- Implemented REST APIs using FastAPI and Python
+- Reduced deployment time by 70% through CI/CD automation
+- Mentored team of 4 junior developers
+
+Software Developer | StartupXYZ | 2019 - 2021
+- Built customer-facing web applications using React and Node.js
+- Designed and optimized PostgreSQL database schemas
+- Integrated third-party APIs for payment processing
+
+Junior Developer | WebAgency | 2018 - 2019
+- Developed responsive websites using HTML, CSS, JavaScript
+- Collaborated with design team on UI/UX improvements
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2018
+
+CERTIFICATIONS
+- AWS Certified Developer Associate
+- Python Professional Certificate
+
+LANGUAGES
+- English (Native)
+- Spanish (Intermediate)

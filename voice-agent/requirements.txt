@@ -1,0 +1,22 @@
+# LiveKit Agents Framework
+livekit-agents>=1.0.0
+livekit-plugins-google>=1.0.0
+livekit-plugins-silero>=0.7.0
+
+# FastAPI for REST endpoints
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+
+# HTTP Client for service calls
+httpx>=0.26.0
+
+# Configuration
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.0
+
+# Logging
+loguru>=0.7.2
+
+# Async utilities
+aiohttp>=3.9.0

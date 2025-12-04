@@ -1,0 +1,27 @@
+# FastAPI and server
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+
+# Telegram Bot
+python-telegram-bot>=21.0
+
+# Google Gemini AI
+google-generativeai>=0.8.0
+
+# Model Context Protocol (MCP) SDK
+mcp>=1.0.0
+
+# Odoo Integration (XML-RPC is built-in, but we need these)
+aiohttp>=3.9.0
+
+# Environment and configuration
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Async support
+asyncio>=3.4.3
+
+# Logging
+loguru>=0.7.2

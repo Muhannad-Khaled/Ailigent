@@ -1,0 +1,40 @@
+version: '3.8'
+
+# Development docker-compose with hot reload and debug mode
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: task-management-api-dev
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_HOST=redis
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ../app:/app/app:ro
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - task-management-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  redis:
+    image: redis:7-alpine
+    container_name: task-management-redis-dev
+    ports:
+      - "6379:6379"
+    networks:
+      - task-management-network
+    command: redis-server
+
+networks:
+  task-management-network:
+    driver: bridge
