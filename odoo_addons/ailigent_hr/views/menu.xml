@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_ailigent_hr_root"
+              name="Ailigent HR"
+              web_icon="ailigent_hr,static/description/icon.png"
+              sequence="101"/>
+
+    <!-- Recruitment Section -->
+    <menuitem id="menu_ailigent_recruitment"
+              name="AI Recruitment"
+              parent="menu_ailigent_hr_root"
+              sequence="10"/>
+
+    <menuitem id="menu_cv_analysis"
+              name="CV Analysis"
+              parent="menu_ailigent_recruitment"
+              action="action_cv_analysis"
+              sequence="10"/>
+
+    <!-- Analytics Section -->
+    <menuitem id="menu_ailigent_analytics"
+              name="Analytics"
+              parent="menu_ailigent_hr_root"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_insights"
+              name="HR Insights"
+              parent="menu_ailigent_analytics"
+              action="action_hr_insights"
+              sequence="10"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_ailigent_hr_config"
+              name="Configuration"
+              parent="menu_ailigent_hr_root"
+              sequence="90"/>
+
+    <menuitem id="menu_hr_settings"
+              name="API Settings"
+              parent="menu_ailigent_hr_config"
+              action="action_hr_settings"
+              sequence="10"/>
+</odoo>

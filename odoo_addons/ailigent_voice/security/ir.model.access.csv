@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_voice_settings_manager,ailigent.voice.settings.manager,model_ailigent_voice_settings,base.group_system,1,1,1,1
+access_voice_user_preference_user,ailigent.voice.user.preference.user,model_ailigent_voice_user_preference,base.group_user,1,1,1,0
+access_voice_user_preference_manager,ailigent.voice.user.preference.manager,model_ailigent_voice_user_preference,base.group_system,1,1,1,1
+access_voice_session_user,ailigent.voice.session.user,model_ailigent_voice_session,base.group_user,1,0,0,0
+access_voice_session_manager,ailigent.voice.session.manager,model_ailigent_voice_session,base.group_system,1,1,1,1

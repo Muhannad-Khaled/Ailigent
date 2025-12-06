@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Bottleneck Alert Form View -->
+    <record id="view_bottleneck_alert_form" model="ir.ui.view">
+        <field name="name">ailigent.bottleneck.alert.form</field>
+        <field name="model">ailigent.bottleneck.alert</field>
+        <field name="arch" type="xml">
+            <form string="Bottleneck Detection">
+                <header>
+                    <button name="action_analyze"
+                            string="Detect Bottlenecks"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state not in ['draft', 'error']"/>
+                    <button name="action_resolve"
+                            string="Mark Resolved"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'analyzed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,analyzed,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="alert alert-warning" invisible="state != 'analyzed' or bottlenecks_count == 0">
+                        <strong><field name="bottlenecks_count" readonly="1"/> bottleneck(s) detected!</strong>
+                    </div>
+                    <div class="alert alert-success" invisible="state != 'analyzed' or bottlenecks_count > 0">
+                        <strong>No bottlenecks detected - workflow is healthy!</strong>
+                    </div>
+
+                    <!-- Error -->
+                    <div class="alert alert-danger" invisible="not analysis_error">
+                        <field name="analysis_error" readonly="1"/>
+                    </div>
+
+                    <group>
+                        <group string="Filters">
+                            <field name="project_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Info" invisible="state != 'analyzed'">
+                            <field name="analyzed_at"/>
+                        </group>
+                    </group>
+
+                    <notebook invisible="state not in ['analyzed', 'resolved']">
+                        <page string="Summary" name="summary">
+                            <field name="summary" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Bottlenecks" name="bottlenecks">
+                            <field name="bottlenecks_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Priority Actions" name="actions">
+                            <field name="actions_display" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Bottleneck Alert Tree View -->
+    <record id="view_bottleneck_alert_tree" model="ir.ui.view">
+        <field name="name">ailigent.bottleneck.alert.tree</field>
+        <field name="model">ailigent.bottleneck.alert</field>
+        <field name="arch" type="xml">
+            <tree string="Bottleneck Alerts" decoration-danger="bottlenecks_count > 0 and state == 'analyzed'">
+                <field name="name"/>
+                <field name="bottlenecks_count"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'analyzed'"
+                       decoration-success="state == 'resolved'"
+                       decoration-danger="state == 'error'"/>
+                <field name="analyzed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Bottleneck Alert Action -->
+    <record id="action_bottleneck_alert" model="ir.actions.act_window">
+        <field name="name">Bottleneck Detection</field>
+        <field name="res_model">ailigent.bottleneck.alert</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Detect workflow bottlenecks
+            </p>
+            <p>
+                Use AI to identify bottlenecks in your task workflows and get
+                recommendations for resolution.
+            </p>
+        </field>
+    </record>
+</odoo>

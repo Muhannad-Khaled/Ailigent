@@ -4,7 +4,11 @@ uvicorn[standard]==0.27.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
 
-# AI/LLM
+# AI/LLM - LangChain with Google Gemini
+langchain>=0.3.0
+langchain-google-genai>=2.0.0
+langchain-core>=0.3.0
+# Keep google-genai for backward compatibility
 google-genai==0.3.0
 
 # Redis (optional caching)

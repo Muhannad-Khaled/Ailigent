@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Contract Analysis Form View -->
+    <record id="view_contract_analysis_form" model="ir.ui.view">
+        <field name="name">ailigent.contract.analysis.form</field>
+        <field name="model">ailigent.contract.analysis</field>
+        <field name="arch" type="xml">
+            <form string="Contract Analysis">
+                <header>
+                    <button name="action_analyze"
+                            string="Analyze Contract"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state not in ['draft', 'error']"/>
+                    <button name="action_reset_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state == 'draft'"
+                            confirm="This will clear all analysis results. Continue?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,analyzing,analyzed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Contract Name"/>
+                        </h1>
+                    </div>
+
+                    <!-- Risk Score Badge -->
+                    <div class="alert alert-info" invisible="state != 'analyzed'">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Contract Type:</strong>
+                                <field name="contract_type" readonly="1"/>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Risk Score:</strong>
+                                <field name="overall_risk_score" readonly="1"/> / 100
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Risk Level:</strong>
+                                <field name="overall_risk_level" widget="badge"
+                                       decoration-danger="overall_risk_level in ['high', 'critical']"
+                                       decoration-warning="overall_risk_level == 'medium'"
+                                       decoration-success="overall_risk_level == 'low'"/>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Analyzed:</strong>
+                                <field name="analyzed_at" readonly="1"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="alert alert-danger" invisible="not analysis_error">
+                        <strong>Analysis Error:</strong>
+                        <field name="analysis_error" readonly="1"/>
+                    </div>
+
+                    <notebook>
+                        <page string="Contract Input" name="input">
+                            <group>
+                                <group string="Contract Text">
+                                    <field name="contract_text" nolabel="1" colspan="2"
+                                           placeholder="Paste contract text here for analysis..."/>
+                                </group>
+                                <group string="Documents">
+                                    <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Summary" name="summary" invisible="state != 'analyzed'">
+                            <group>
+                                <field name="summary" nolabel="1" colspan="2" readonly="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Parties" name="parties" invisible="state != 'analyzed'">
+                            <field name="parties_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Key Clauses" name="clauses" invisible="state != 'analyzed'">
+                            <field name="clauses_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Risks" name="risks" invisible="state != 'analyzed'">
+                            <field name="risks_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Recommendations" name="recommendations" invisible="state != 'analyzed'">
+                            <field name="recommendations_display" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Contract Analysis Tree View -->
+    <record id="view_contract_analysis_tree" model="ir.ui.view">
+        <field name="name">ailigent.contract.analysis.tree</field>
+        <field name="model">ailigent.contract.analysis</field>
+        <field name="arch" type="xml">
+            <tree string="Contract Analyses" decoration-danger="overall_risk_level in ['high', 'critical']" decoration-warning="overall_risk_level == 'medium'">
+                <field name="name"/>
+                <field name="contract_type"/>
+                <field name="overall_risk_score" widget="progressbar"/>
+                <field name="overall_risk_level" widget="badge"
+                       decoration-danger="overall_risk_level in ['high', 'critical']"
+                       decoration-warning="overall_risk_level == 'medium'"
+                       decoration-success="overall_risk_level == 'low'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'analyzing'"
+                       decoration-success="state == 'analyzed'"
+                       decoration-danger="state == 'error'"/>
+                <field name="analyzed_at"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Contract Analysis Search View -->
+    <record id="view_contract_analysis_search" model="ir.ui.view">
+        <field name="name">ailigent.contract.analysis.search</field>
+        <field name="model">ailigent.contract.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Search Contracts">
+                <field name="name"/>
+                <field name="contract_type"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Analyzed" name="analyzed" domain="[('state', '=', 'analyzed')]"/>
+                <filter string="Error" name="error" domain="[('state', '=', 'error')]"/>
+                <separator/>
+                <filter string="High Risk" name="high_risk" domain="[('overall_risk_level', 'in', ['high', 'critical'])]"/>
+                <filter string="Medium Risk" name="medium_risk" domain="[('overall_risk_level', '=', 'medium')]"/>
+                <filter string="Low Risk" name="low_risk" domain="[('overall_risk_level', '=', 'low')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Risk Level" name="group_risk" context="{'group_by': 'overall_risk_level'}"/>
+                    <filter string="Contract Type" name="group_type" context="{'group_by': 'contract_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Contract Analysis Kanban View -->
+    <record id="view_contract_analysis_kanban" model="ir.ui.view">
+        <field name="name">ailigent.contract.analysis.kanban</field>
+        <field name="model">ailigent.contract.analysis</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="contract_type"/>
+                <field name="overall_risk_level"/>
+                <field name="overall_risk_score"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="contract_type"/>
+                                    <div class="mt-2">
+                                        <span t-if="record.overall_risk_level.raw_value == 'critical'" class="badge bg-danger">Critical Risk</span>
+                                        <span t-elif="record.overall_risk_level.raw_value == 'high'" class="badge bg-danger">High Risk</span>
+                                        <span t-elif="record.overall_risk_level.raw_value == 'medium'" class="badge bg-warning">Medium Risk</span>
+                                        <span t-elif="record.overall_risk_level.raw_value == 'low'" class="badge bg-success">Low Risk</span>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="overall_risk_score" widget="gauge" options="{'max_value': 100}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Contract Analysis Action -->
+    <record id="action_contract_analysis" model="ir.actions.act_window">
+        <field name="name">Contract Analysis</field>
+        <field name="res_model">ailigent.contract.analysis</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="view_contract_analysis_search"/>
+        <field name="context">{'search_default_analyzed': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first contract analysis
+            </p>
+            <p>
+                Upload contracts and use AI to analyze clauses, identify risks,
+                and get compliance recommendations.
+            </p>
+        </field>
+    </record>
+</odoo>

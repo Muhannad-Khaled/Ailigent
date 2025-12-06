@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CV Analysis Form View -->
+    <record id="view_cv_analysis_form" model="ir.ui.view">
+        <field name="name">ailigent.cv.analysis.form</field>
+        <field name="model">ailigent.cv.analysis</field>
+        <field name="arch" type="xml">
+            <form string="CV Analysis">
+                <header>
+                    <button name="action_analyze"
+                            string="Analyze CV"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state not in ['draft', 'error']"/>
+                    <button name="action_shortlist"
+                            string="Shortlist"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'analyzed'"/>
+                    <button name="action_reject"
+                            string="Reject"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'analyzed'"/>
+                    <button name="action_reset_draft"
+                            string="Reset"
+                            type="object"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,analyzed,shortlisted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Candidate Name"/>
+                        </h1>
+                    </div>
+
+                    <!-- Score Badge for Analyzed -->
+                    <div class="alert alert-info" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <h2><field name="overall_score" readonly="1"/><small>/100</small></h2>
+                                <span class="text-muted">Overall Score</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h4><field name="skill_match_percentage" readonly="1" widget="percentage"/></h4>
+                                <span class="text-muted">Skill Match</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <field name="hiring_recommendation" widget="badge"
+                                       decoration-success="hiring_recommendation in ['strongly_recommend', 'recommend']"
+                                       decoration-warning="hiring_recommendation == 'consider'"
+                                       decoration-danger="hiring_recommendation == 'do_not_recommend'"/>
+                                <br/><span class="text-muted">Recommendation</span>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <field name="years_experience" readonly="1"/> years
+                                <br/><span class="text-muted">Experience</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="alert alert-danger" invisible="not analysis_error">
+                        <strong>Error:</strong> <field name="analysis_error" readonly="1"/>
+                    </div>
+
+                    <group>
+                        <group string="Candidate Info">
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="job_id"/>
+                            <field name="applicant_id"/>
+                        </group>
+                        <group string="CV Document">
+                            <field name="cv_file" filename="cv_filename"/>
+                            <field name="cv_filename" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="CV Text" name="cv_text">
+                            <field name="cv_text" placeholder="Paste CV text here or upload a file..."/>
+                        </page>
+
+                        <page string="Skills Analysis" name="skills" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <field name="skills_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Experience" name="experience" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <group>
+                                <field name="experience_relevance" widget="badge"/>
+                                <field name="experience_summary" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+
+                        <page string="Education" name="education" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <group>
+                                <field name="education_match"/>
+                                <field name="education_summary" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+
+                        <page string="Strengths &amp; Concerns" name="strengths" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="text-success">Strengths</h4>
+                                    <field name="strengths_display" nolabel="1" readonly="1"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="text-warning">Concerns</h4>
+                                    <field name="concerns_display" nolabel="1" readonly="1"/>
+                                </div>
+                            </div>
+                        </page>
+
+                        <page string="Interview Questions" name="questions" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <field name="interview_questions_display" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="AI Notes" name="notes" invisible="state not in ['analyzed', 'shortlisted', 'rejected']">
+                            <field name="ai_notes" nolabel="1" readonly="1"/>
+                            <field name="analyzed_at" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- CV Analysis Tree View -->
+    <record id="view_cv_analysis_tree" model="ir.ui.view">
+        <field name="name">ailigent.cv.analysis.tree</field>
+        <field name="model">ailigent.cv.analysis</field>
+        <field name="arch" type="xml">
+            <tree string="CV Analyses" decoration-success="state == 'shortlisted'" decoration-danger="state == 'rejected'">
+                <field name="name"/>
+                <field name="job_id"/>
+                <field name="overall_score" widget="progressbar"/>
+                <field name="skill_match_percentage" widget="progressbar"/>
+                <field name="hiring_recommendation" widget="badge"
+                       decoration-success="hiring_recommendation in ['strongly_recommend', 'recommend']"
+                       decoration-warning="hiring_recommendation == 'consider'"
+                       decoration-danger="hiring_recommendation == 'do_not_recommend'"/>
+                <field name="state" widget="badge"/>
+                <field name="analyzed_at"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- CV Analysis Search View -->
+    <record id="view_cv_analysis_search" model="ir.ui.view">
+        <field name="name">ailigent.cv.analysis.search</field>
+        <field name="model">ailigent.cv.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Search CV Analyses">
+                <field name="name"/>
+                <field name="job_id"/>
+                <field name="email"/>
+                <filter string="Pending" name="pending" domain="[('state', '=', 'draft')]"/>
+                <filter string="Analyzed" name="analyzed" domain="[('state', '=', 'analyzed')]"/>
+                <filter string="Shortlisted" name="shortlisted" domain="[('state', '=', 'shortlisted')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <filter string="Strongly Recommend" name="strong_rec" domain="[('hiring_recommendation', '=', 'strongly_recommend')]"/>
+                <filter string="High Score (>80)" name="high_score" domain="[('overall_score', '>=', 80)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Job Position" name="group_job" context="{'group_by': 'job_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Recommendation" name="group_rec" context="{'group_by': 'hiring_recommendation'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- CV Analysis Kanban View -->
+    <record id="view_cv_analysis_kanban" model="ir.ui.view">
+        <field name="name">ailigent.cv.analysis.kanban</field>
+        <field name="model">ailigent.cv.analysis</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="job_id"/>
+                <field name="overall_score"/>
+                <field name="hiring_recommendation"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="job_id"/>
+                                    <div class="mt-2">
+                                        <strong>Score: </strong><field name="overall_score"/>%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- CV Analysis Action -->
+    <record id="action_cv_analysis" model="ir.actions.act_window">
+        <field name="name">CV Analysis</field>
+        <field name="res_model">ailigent.cv.analysis</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_cv_analysis_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Upload CVs for AI analysis
+            </p>
+            <p>
+                Upload candidate CVs and use AI to analyze skills, experience,
+                and generate interview questions.
+            </p>
+        </field>
+    </record>
+</odoo>

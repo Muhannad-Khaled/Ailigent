@@ -39,12 +39,12 @@ async def lifespan(app: FastAPI):
     mcp_server = create_odoo_mcp_server(odoo_service)
     logger.info("Initialized Odoo MCP Server")
 
-    # Initialize Gemini AI with Odoo service for MCP tools
+    # Initialize LangChain Agent with Google Gemini and Odoo tools
     gemini_service = GeminiService(
         api_key=settings.google_api_key,
-        odoo_service=odoo_service,  # Enable MCP-style function calling
+        odoo_service=odoo_service,  # Enable LangChain tool-calling
     )
-    logger.info("Initialized Gemini AI with MCP tools")
+    logger.info("Initialized LangChain Agent with Gemini AI and Odoo tools")
 
     # Initialize Telegram bot
     telegram_app = (

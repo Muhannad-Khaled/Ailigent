@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Contract Settings Form View -->
+    <record id="view_contract_settings_form" model="ir.ui.view">
+        <field name="name">ailigent.contract.settings.form</field>
+        <field name="model">ailigent.contract.settings</field>
+        <field name="arch" type="xml">
+            <form string="Contract Settings">
+                <sheet>
+                    <group>
+                        <group string="API Configuration">
+                            <field name="name"/>
+                            <field name="api_url" placeholder="http://localhost:8001"/>
+                            <field name="api_key" password="True"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Actions">
+                            <button name="action_test_connection"
+                                    string="Test Connection"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-plug"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info">
+                        <h4>Configuration Help</h4>
+                        <p>
+                            <strong>API URL:</strong> The URL where your Contracts Agent FastAPI service is running.
+                            Default: <code>http://localhost:8001</code>
+                        </p>
+                        <p>
+                            <strong>API Key:</strong> The API key configured in your Contracts Agent service
+                            (set in the service's .env file as <code>API_KEY</code>).
+                        </p>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Contract Settings Tree View -->
+    <record id="view_contract_settings_tree" model="ir.ui.view">
+        <field name="name">ailigent.contract.settings.tree</field>
+        <field name="model">ailigent.contract.settings</field>
+        <field name="arch" type="xml">
+            <tree string="Contract Settings">
+                <field name="name"/>
+                <field name="api_url"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Contract Settings Action -->
+    <record id="action_contract_settings" model="ir.actions.act_window">
+        <field name="name">Contract Settings</field>
+        <field name="res_model">ailigent.contract.settings</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your Contract API connection
+            </p>
+            <p>
+                Set up the connection to your Ailigent Contracts FastAPI service.
+            </p>
+        </field>
+    </record>
+</odoo>

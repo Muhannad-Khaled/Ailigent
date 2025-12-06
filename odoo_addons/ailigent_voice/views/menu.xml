@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_ailigent_voice_root"
+              name="Ailigent Voice"
+              web_icon="ailigent_voice,static/description/icon.png"
+              sequence="103"/>
+
+    <!-- Sessions -->
+    <menuitem id="menu_voice_sessions"
+              name="Voice Sessions"
+              parent="menu_ailigent_voice_root"
+              action="action_voice_session"
+              sequence="10"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_ailigent_voice_config"
+              name="Configuration"
+              parent="menu_ailigent_voice_root"
+              sequence="90"/>
+
+    <menuitem id="menu_voice_settings"
+              name="Voice Settings"
+              parent="menu_ailigent_voice_config"
+              action="action_voice_settings"
+              sequence="10"/>
+
+    <menuitem id="menu_voice_user_preferences"
+              name="User Preferences"
+              parent="menu_ailigent_voice_config"
+              action="action_voice_user_preference"
+              sequence="20"/>
+</odoo>

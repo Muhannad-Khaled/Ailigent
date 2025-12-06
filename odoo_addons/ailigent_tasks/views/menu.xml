@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_ailigent_tasks_root"
+              name="Ailigent Tasks"
+              web_icon="ailigent_tasks,static/description/icon.png"
+              sequence="102"/>
+
+    <!-- Analysis Section -->
+    <menuitem id="menu_ailigent_task_analysis"
+              name="AI Analysis"
+              parent="menu_ailigent_tasks_root"
+              sequence="10"/>
+
+    <menuitem id="menu_workload_snapshot"
+              name="Workload Analysis"
+              parent="menu_ailigent_task_analysis"
+              action="action_workload_snapshot"
+              sequence="10"/>
+
+    <menuitem id="menu_bottleneck_alert"
+              name="Bottleneck Detection"
+              parent="menu_ailigent_task_analysis"
+              action="action_bottleneck_alert"
+              sequence="20"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_ailigent_task_config"
+              name="Configuration"
+              parent="menu_ailigent_tasks_root"
+              sequence="90"/>
+
+    <menuitem id="menu_task_settings"
+              name="API Settings"
+              parent="menu_ailigent_task_config"
+              action="action_task_settings"
+              sequence="10"/>
+</odoo>

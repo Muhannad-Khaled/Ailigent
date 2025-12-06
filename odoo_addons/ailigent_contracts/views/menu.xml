@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_ailigent_contracts_root"
+              name="Ailigent Contracts"
+              web_icon="ailigent_contracts,static/description/icon.png"
+              sequence="100"/>
+
+    <!-- Contract Analysis Menu -->
+    <menuitem id="menu_contract_analysis"
+              name="Contract Analysis"
+              parent="menu_ailigent_contracts_root"
+              action="action_contract_analysis"
+              sequence="10"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_ailigent_contracts_config"
+              name="Configuration"
+              parent="menu_ailigent_contracts_root"
+              sequence="90"/>
+
+    <menuitem id="menu_contract_settings"
+              name="API Settings"
+              parent="menu_ailigent_contracts_config"
+              action="action_contract_settings"
+              sequence="10"/>
+</odoo>

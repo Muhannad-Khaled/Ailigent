@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_workload_snapshot_user,ailigent.workload.snapshot.user,model_ailigent_workload_snapshot,base.group_user,1,1,1,0
+access_workload_snapshot_manager,ailigent.workload.snapshot.manager,model_ailigent_workload_snapshot,base.group_system,1,1,1,1
+access_bottleneck_alert_user,ailigent.bottleneck.alert.user,model_ailigent_bottleneck_alert,base.group_user,1,1,1,0
+access_bottleneck_alert_manager,ailigent.bottleneck.alert.manager,model_ailigent_bottleneck_alert,base.group_system,1,1,1,1
+access_task_settings_manager,ailigent.task.settings.manager,model_ailigent_task_settings,base.group_system,1,1,1,1

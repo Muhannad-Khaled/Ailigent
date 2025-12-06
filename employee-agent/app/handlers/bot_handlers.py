@@ -11,7 +11,7 @@ from telegram.ext import (
 from loguru import logger
 
 from app.services.odoo_service import OdooService
-from app.services.gemini_service import GeminiService
+from app.services import GeminiService  # Uses LangChain-based agent (backward compatible)
 from app.services.email_service import send_otp_email
 from app.utils.otp import otp_manager
 

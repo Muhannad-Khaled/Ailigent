@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Voice Settings Form View -->
+    <record id="view_voice_settings_form" model="ir.ui.view">
+        <field name="name">ailigent.voice.settings.form</field>
+        <field name="model">ailigent.voice.settings</field>
+        <field name="arch" type="xml">
+            <form string="Voice Settings">
+                <sheet>
+                    <group>
+                        <group string="API Configuration">
+                            <field name="name"/>
+                            <field name="api_url" placeholder="http://localhost:8004"/>
+                            <field name="api_key" password="True"/>
+                            <field name="livekit_url" placeholder="wss://your-livekit-server.com"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Actions">
+                            <button name="action_test_connection"
+                                    string="Test Connection"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-plug"/>
+                        </group>
+                    </group>
+
+                    <group string="Voice Preferences">
+                        <group>
+                            <field name="default_language"/>
+                            <field name="voice_persona"/>
+                        </group>
+                        <group>
+                            <field name="tts_provider"/>
+                            <field name="tts_voice"/>
+                            <field name="stt_provider"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info">
+                        <h4>Configuration Help</h4>
+                        <p><strong>API URL:</strong> URL of the Voice Agent FastAPI service.</p>
+                        <p><strong>LiveKit URL:</strong> WebSocket URL for your LiveKit server (e.g., wss://your-livekit.livekit.cloud).</p>
+                        <p><strong>TTS Voice:</strong> Voice ID depends on provider:
+                            <ul>
+                                <li>OpenAI: alloy, echo, fable, onyx, nova, shimmer</li>
+                                <li>ElevenLabs: Use your ElevenLabs voice ID</li>
+                            </ul>
+                        </p>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Voice Settings Tree View -->
+    <record id="view_voice_settings_tree" model="ir.ui.view">
+        <field name="name">ailigent.voice.settings.tree</field>
+        <field name="model">ailigent.voice.settings</field>
+        <field name="arch" type="xml">
+            <tree string="Voice Settings">
+                <field name="name"/>
+                <field name="api_url"/>
+                <field name="default_language"/>
+                <field name="tts_provider"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Voice Settings Action -->
+    <record id="action_voice_settings" model="ir.actions.act_window">
+        <field name="name">Voice Settings</field>
+        <field name="res_model">ailigent.voice.settings</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- User Preferences Form -->
+    <record id="view_voice_user_preference_form" model="ir.ui.view">
+        <field name="name">ailigent.voice.user.preference.form</field>
+        <field name="model">ailigent.voice.user.preference</field>
+        <field name="arch" type="xml">
+            <form string="Voice Preferences">
+                <sheet>
+                    <group>
+                        <group string="User">
+                            <field name="user_id"/>
+                            <field name="employee_id" readonly="1"/>
+                        </group>
+                        <group string="Preferences">
+                            <field name="language"/>
+                            <field name="voice_persona"/>
+                            <field name="speech_rate"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- User Preferences Tree -->
+    <record id="view_voice_user_preference_tree" model="ir.ui.view">
+        <field name="name">ailigent.voice.user.preference.tree</field>
+        <field name="model">ailigent.voice.user.preference</field>
+        <field name="arch" type="xml">
+            <tree string="User Voice Preferences">
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <field name="language"/>
+                <field name="voice_persona"/>
+                <field name="speech_rate"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- User Preferences Action -->
+    <record id="action_voice_user_preference" model="ir.actions.act_window">
+        <field name="name">User Preferences</field>
+        <field name="res_model">ailigent.voice.user.preference</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

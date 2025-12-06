@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_contract_analysis_user,ailigent.contract.analysis.user,model_ailigent_contract_analysis,base.group_user,1,1,1,0
+access_contract_analysis_manager,ailigent.contract.analysis.manager,model_ailigent_contract_analysis,base.group_system,1,1,1,1
+access_contract_settings_manager,ailigent.contract.settings.manager,model_ailigent_contract_settings,base.group_system,1,1,1,1

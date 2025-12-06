@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- HR Settings Form View -->
+    <record id="view_hr_settings_form" model="ir.ui.view">
+        <field name="name">ailigent.hr.settings.form</field>
+        <field name="model">ailigent.hr.settings</field>
+        <field name="arch" type="xml">
+            <form string="HR Settings">
+                <sheet>
+                    <group>
+                        <group string="API Configuration">
+                            <field name="name"/>
+                            <field name="api_url" placeholder="http://localhost:8002"/>
+                            <field name="api_key" password="True"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Actions">
+                            <button name="action_test_connection"
+                                    string="Test Connection"
+                                    type="object"
+                                    class="btn-primary"
+                                    icon="fa-plug"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- HR Settings Tree View -->
+    <record id="view_hr_settings_tree" model="ir.ui.view">
+        <field name="name">ailigent.hr.settings.tree</field>
+        <field name="model">ailigent.hr.settings</field>
+        <field name="arch" type="xml">
+            <tree string="HR Settings">
+                <field name="name"/>
+                <field name="api_url"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- HR Settings Action -->
+    <record id="action_hr_settings" model="ir.actions.act_window">
+        <field name="name">HR API Settings</field>
+        <field name="res_model">ailigent.hr.settings</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

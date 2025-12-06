@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cv_analysis_user,ailigent.cv.analysis.user,model_ailigent_cv_analysis,base.group_user,1,1,1,0
+access_cv_analysis_manager,ailigent.cv.analysis.manager,model_ailigent_cv_analysis,base.group_system,1,1,1,1
+access_hr_insights_user,ailigent.hr.insights.user,model_ailigent_hr_insights,base.group_user,1,1,1,0
+access_hr_insights_manager,ailigent.hr.insights.manager,model_ailigent_hr_insights,base.group_system,1,1,1,1
+access_hr_settings_manager,ailigent.hr.settings.manager,model_ailigent_hr_settings,base.group_system,1,1,1,1
+access_cv_upload_wizard,ailigent.cv.upload.wizard,model_ailigent_cv_upload_wizard,base.group_user,1,1,1,1

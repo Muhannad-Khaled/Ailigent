@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CV Upload Wizard Form -->
+    <record id="view_cv_upload_wizard_form" model="ir.ui.view">
+        <field name="name">ailigent.cv.upload.wizard.form</field>
+        <field name="model">ailigent.cv.upload.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload CVs">
+                <group>
+                    <field name="job_id"/>
+                    <field name="cv_files" widget="many2many_binary"/>
+                    <field name="auto_analyze"/>
+                </group>
+                <footer>
+                    <button name="action_upload" string="Upload &amp; Analyze" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- CV Upload Wizard Action -->
+    <record id="action_cv_upload_wizard" model="ir.actions.act_window">
+        <field name="name">Upload CVs</field>
+        <field name="res_model">ailigent.cv.upload.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Add menu item for wizard -->
+    <menuitem id="menu_cv_upload_wizard"
+              name="Upload CVs"
+              parent="menu_ailigent_recruitment"
+              action="action_cv_upload_wizard"
+              sequence="5"/>
+</odoo>

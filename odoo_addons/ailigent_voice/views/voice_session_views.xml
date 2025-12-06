@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Voice Session Form View -->
+    <record id="view_voice_session_form" model="ir.ui.view">
+        <field name="name">ailigent.voice.session.form</field>
+        <field name="model">ailigent.voice.session</field>
+        <field name="arch" type="xml">
+            <form string="Voice Session" create="0" edit="0">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <!-- Error Alert -->
+                    <div class="alert alert-danger" invisible="state != 'error'">
+                        <strong>Error:</strong> <field name="error_message"/>
+                    </div>
+
+                    <group>
+                        <group string="Session Info">
+                            <field name="user_id"/>
+                            <field name="employee_id"/>
+                            <field name="language"/>
+                            <field name="room_name"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="duration_display"/>
+                        </group>
+                    </group>
+
+                    <group string="Metrics" invisible="state not in ['completed']">
+                        <group>
+                            <field name="user_turns"/>
+                            <field name="assistant_turns"/>
+                        </group>
+                        <group>
+                            <field name="total_words"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Summary" name="summary" invisible="not summary">
+                            <field name="summary" nolabel="1" readonly="1"/>
+                        </page>
+
+                        <page string="Transcript" name="transcript">
+                            <field name="transcript_display" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Voice Session Tree View -->
+    <record id="view_voice_session_tree" model="ir.ui.view">
+        <field name="name">ailigent.voice.session.tree</field>
+        <field name="model">ailigent.voice.session</field>
+        <field name="arch" type="xml">
+            <tree string="Voice Sessions" create="0" decoration-danger="state == 'error'" decoration-muted="state == 'disconnected'">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <field name="language"/>
+                <field name="start_time"/>
+                <field name="duration_display"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'completed'"
+                       decoration-info="state == 'active'"
+                       decoration-danger="state == 'error'"
+                       decoration-warning="state == 'disconnected'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Voice Session Search View -->
+    <record id="view_voice_session_search" model="ir.ui.view">
+        <field name="name">ailigent.voice.session.search</field>
+        <field name="model">ailigent.voice.session</field>
+        <field name="arch" type="xml">
+            <search string="Search Sessions">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="employee_id"/>
+                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Errors" name="errors" domain="[('state', '=', 'error')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('start_time', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="This Week" name="week" domain="[('start_time', '>=', (context_today() - relativedelta(days=7)))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Language" name="group_language" context="{'group_by': 'language'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'start_time:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Voice Session Action -->
+    <record id="action_voice_session" model="ir.actions.act_window">
+        <field name="name">Voice Sessions</field>
+        <field name="res_model">ailigent.voice.session</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_voice_session_search"/>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No voice sessions yet
+            </p>
+            <p>
+                Voice sessions are created automatically when users
+                interact with the AI voice assistant.
+            </p>
+        </field>
+    </record>
+</odoo>
